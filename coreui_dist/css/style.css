@@ -8018,60 +8018,60 @@ html:not([dir=rtl]) .header-nav {
 
 .sidebar {
   --cui-sidebar-width: 16rem;
-  --cui-sidebar-bg: #3c4b64;
+  --cui-sidebar-bg: #ffffff; /* White background */
   --cui-sidebar-padding-x: 0;
   --cui-sidebar-padding-y: 0;
-  --cui-sidebar-color: rgba(255, 255, 255, 0.87);
+  --cui-sidebar-color: rgba(0, 0, 0, 0.87); /* Dark text color */
   --cui-sidebar-border-width: 0;
   --cui-sidebar-border-color: transparent;
-  --cui-sidebar-brand-color: rgba(255, 255, 255, 0.87);
+  --cui-sidebar-brand-color: rgba(0, 0, 0, 0.87); /* Dark text color */
   --cui-sidebar-brand-height: 4rem;
-  --cui-sidebar-brand-bg: rgba(0, 0, 21, 0.2);
+  --cui-sidebar-brand-bg: rgba(255, 255, 255, 0.8); /* Lighter brand background */
   --cui-sidebar-header-height: 4rem;
-  --cui-sidebar-header-bg: rgba(0, 0, 21, 0.2);
+  --cui-sidebar-header-bg: rgba(255, 255, 255, 0.8); /* Lighter header background */
   --cui-sidebar-header-padding-x: 1rem;
   --cui-sidebar-header-padding-y: 0.75rem;
-  --cui-sidebar-footer-bg: rgba(0, 0, 21, 0.2);
+  --cui-sidebar-footer-bg: rgba(255, 255, 255, 0.8); /* Lighter footer background */
   --cui-sidebar-footer-height: auto;
   --cui-sidebar-footer-padding-x: 1rem;
   --cui-sidebar-footer-padding-y: 0.75rem;
-  --cui-sidebar-toggler-bg: rgba(0, 0, 21, 0.2);
+  --cui-sidebar-toggler-bg: rgba(255, 255, 255, 0.8); /* Lighter toggler background */
   --cui-sidebar-toggler-height: 3rem;
-  --cui-sidebar-toggler-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='%238a93a2' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
+  --cui-sidebar-toggler-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='%23000' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
   --cui-sidebar-toggler-indicator-width: 4rem;
   --cui-sidebar-toggler-indicator-height: 3rem;
-  --cui-sidebar-toggler-hover-bg: rgba(0, 0, 0, 0.3);
+  --cui-sidebar-toggler-hover-bg: rgba(0, 0, 0, 0.1); /* Lighter hover background */
   --cui-sidebar-toggler-indicator-hover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba%28255, 255, 255, 0.87%29' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
   --cui-sidebar-narrow-width: 4rem;
   --cui-sidebar-nav-title-padding-x: 1rem;
   --cui-sidebar-nav-title-padding-y: 0.75rem;
   --cui-sidebar-nav-title-margin-top: 1rem;
-  --cui-sidebar-nav-title-color: rgba(255, 255, 255, 0.6);
+  --cui-sidebar-nav-title-color: rgba(0, 0, 0, 0.6); /* Lighter title color */
   --cui-sidebar-nav-link-padding-x: 1rem;
   --cui-sidebar-nav-link-padding-y: 0.8445rem;
-  --cui-sidebar-nav-link-color: rgba(255, 255, 255, 0.6);
+  --cui-sidebar-nav-link-color: rgba(0, 0, 0, 0.6); /* Lighter link color */
   --cui-sidebar-nav-link-bg: transparent;
   --cui-sidebar-nav-link-border-color: transparent;
   --cui-sidebar-nav-link-border: 0 solid var(--cui-sidebar-nav-link-border-color);
   --cui-sidebar-nav-link-border-radius: 0;
-  --cui-sidebar-nav-link-active-color: rgba(255, 255, 255, 0.87);
-  --cui-sidebar-nav-link-active-bg: rgba(255, 255, 255, 0.05);
-  --cui-sidebar-nav-link-active-icon-color: rgba(255, 255, 255, 0.87);
-  --cui-sidebar-nav-link-disabled-color: rgba(255, 255, 255, 0.38);
-  --cui-sidebar-nav-link-disabled-icon-color: rgba(255, 255, 255, 0.6);
-  --cui-sidebar-nav-link-hover-color: rgba(255, 255, 255, 0.87);
-  --cui-sidebar-nav-link-hover-bg: rgba(255, 255, 255, 0.05);
-  --cui-sidebar-nav-link-hover-icon-color: rgba(255, 255, 255, 0.87);
+  --cui-sidebar-nav-link-active-color: rgba(0, 0, 0, 0.87); /* Darker active link color */
+  --cui-sidebar-nav-link-active-bg: rgba(0, 0, 0, 0.05); /* Lighter active link background */
+  --cui-sidebar-nav-link-active-icon-color: rgba(0, 0, 0, 0.87); /* Darker active icon color */
+  --cui-sidebar-nav-link-disabled-color: rgba(0, 0, 0, 0.38); /* Lighter disabled link color */
+  --cui-sidebar-nav-link-disabled-icon-color: rgba(0, 0, 0, 0.6); /* Lighter disabled icon color */
+  --cui-sidebar-nav-link-hover-color: rgba(0, 0, 0, 0.87); /* Darker hover link color */
+  --cui-sidebar-nav-link-hover-bg: rgba(0, 0, 0, 0.05); /* Lighter hover background */
+  --cui-sidebar-nav-link-hover-icon-color: rgba(0, 0, 0, 0.87); /* Darker hover icon color */
   --cui-sidebar-nav-icon-width: 4rem;
   --cui-sidebar-nav-icon-height: 1.25rem;
   --cui-sidebar-nav-icon-font-size: 1.25rem;
-  --cui-sidebar-nav-link-icon-color: rgba(255, 255, 255, 0.6);
-  --cui-sidebar-nav-group-bg: rgba(0, 0, 0, 0.2);
+  --cui-sidebar-nav-link-icon-color: rgba(0, 0, 0, 0.6); /* Lighter link icon color */
+  --cui-sidebar-nav-group-bg: rgba(255, 255, 255, 0.2); /* Lighter group background */
   --cui-sidebar-nav-group-items-padding-y: 0;
   --cui-sidebar-nav-group-items-padding-x: 0;
-  --cui-sidebar-nav-group-indicator: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%28255, 255, 255, 0.6%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-  --cui-sidebar-nav-group-indicator-hover: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%28255, 255, 255, 0.87%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-  --cui-sidebar-nav-group-toggle-show-color: rgba(255, 255, 255, 0.6);
+  --cui-sidebar-nav-group-indicator: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%280, 0, 0, 0.6%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --cui-sidebar-nav-group-indicator-hover: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%280, 0, 0, 0.87%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --cui-sidebar-nav-group-toggle-show-color: rgba(0, 0, 0, 0.6); /* Lighter toggle show color */
   position: relative;
   display: flex;
   flex: 0 0 var(--cui-sidebar-width);
@@ -8084,6 +8084,7 @@ html:not([dir=rtl]) .header-nav {
   box-shadow: none;
   transition: margin-left 0.15s, margin-right 0.15s, box-shadow 0.075s, transform 0.15s, width 0.15s, z-index 0s ease 0.15s;
 }
+
 html:not([dir=rtl]) .sidebar {
   border-right: var(--cui-sidebar-border-width) solid var(--cui-sidebar-border-color);
 }
