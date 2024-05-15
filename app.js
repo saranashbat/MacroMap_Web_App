@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars')
 const path = require('path')
 const fileUpload=require('express-fileupload')
+const apiRoutes = require('./api_routes');
 const { auth } = require('express-openid-connect');
-
 
 let app = express()
 
@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'coreui_dist')));
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(fileUpload())
+app.use('/api', apiRoutes);
 
 
 app.get('/', async (req, res) => {
@@ -41,17 +42,39 @@ app.get('/', async (req, res) => {
             userData = sessionData.data
         }
     }
-    
-    
     res.render('index', {layout: false, userData: userData})*/
-    res.render('index', {layout: false})
+
+    let userData = ''
+    if (req.oidc.isAuthenticated()){
+        userData = req.oidc.user
+    }
+    res.render('index', {layout: false, userData: userData})
 })
 
 
 app.get('/macrofilter', async (req, res) => {
-
     
+    let userData = ''
+    if (req.oidc.isAuthenticated()){
+        userData = req.oidc.user
+    }
+    res.render('macrofilter', {layout: false, userData: userData})
+
 })
+
+app.use('/macrofilter', express.static(path.join(__dirname, 'coreui_dist')))
+
+app.get('/macrofilter/search', async (req, res) => {
+    
+    let userData = ''
+    if (req.oidc.isAuthenticated()){
+        userData = req.oidc.user
+    }
+    res.render('search', {layout: false, userData: userData})
+
+})
+
+
 
 /*
 app.get('/404', (req, res) => {
