@@ -197,11 +197,16 @@
               <use xlink:href="assets/brand/coreui.svg#full"></use>
             </svg></a>
           <ul class="header-nav d-none d-md-flex">
+            <form id="search" action="/macrofilter/search">
             <div style="width: 700px" class="input-group mb-3 mt-3">
-              <input class="form-control" type="text" placeholder="Search for foods" aria-label="Search for foods" aria-describedby="basic-addon2"><span class="input-group-text" id="basic-addon2"><svg class="icon icon-lg">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-search"></use>
-            </svg></span>
+              <input id="searchQuery" class="form-control" type="text" name="search" placeholder="Search foods" aria-label="Search foods" aria-describedby="basic-addon2">
+              <button class="input-group-text" id="basic-addon2" type="submit">
+                    <svg class="icon icon-lg">
+                <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-search"></use>
+                </svg>
+            </button>
             </div>
+            </form>
           </ul>
           
           <ul class="header-nav ms-3">
@@ -319,30 +324,34 @@
     <script src="js/main.js"></script>
     <script>
       //REMOVE REDUNDANCY
-      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/list'
+      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/search'
       let apiKey = 'cEFm4RldmnkWBRMronecwmIF1fUVRAr0Vvu4bdD6'
       let currentPageNumber = 1      
       let prevPageNumber
 
       let pageSize = 10
       let dataTypes = ["Branded", "Foundation", "Survey (FNDDS)", "SR Legacy"].join(',')
-
-
+      
+      var searchQuery
+      document.getElementById('search').addEventListener('submit', function(event) {
+        event.preventDefault()
+        searchQuery = document.getElementById('searchQuery').value;
+        currentPageNumber = 1
+        getNextPage()
+    })
       
       async function getNextPage(){
 
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
+            query: searchQuery,
             pageSize: pageSize,
             pageNumber: currentPageNumber,
             dataType: dataTypes
           }
         })
 
-        if(response.data.length < pageSize){
-          return
-        }
 
         displayContents(response.data)
         
@@ -370,6 +379,7 @@
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
+            query: searchQuery, 
             pageSize: pageSize,
             pageNumber: prevPageNumber,
             dataType: dataTypes
@@ -386,7 +396,7 @@
         let body = document.getElementById("list-body")
         let listItems = ``
 
-        for (let item of data){
+        for (let item of data.foods){
           let block = 
           ` <div class="card mb-4 m-4">
               <div class="card-header"><strong>${item.description}</strong></div>
@@ -412,11 +422,12 @@
         }
       }
 
+      window.addEventListener('load', async function() {
+            await getNextPage()
+        })
       
 
-      window.addEventListener('load', function() {
-            getNextPage()
-        })
+      
     </script>
 
   </body>

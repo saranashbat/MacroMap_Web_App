@@ -197,11 +197,16 @@
               <use xlink:href="assets/brand/coreui.svg#full"></use>
             </svg></a>
           <ul class="header-nav d-none d-md-flex">
+            <form id="search" action="/macrofilter/search">
             <div style="width: 700px" class="input-group mb-3 mt-3">
-              <input class="form-control" type="text" placeholder="Search for foods" aria-label="Search for foods" aria-describedby="basic-addon2"><span class="input-group-text" id="basic-addon2"><svg class="icon icon-lg">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-search"></use>
-            </svg></span>
+              <input id="searchQuery" class="form-control" type="text" name="search" placeholder="Search foods" aria-label="Search foods" aria-describedby="basic-addon2">
+              <button class="input-group-text" id="basic-addon2" type="submit">
+                    <svg class="icon icon-lg">
+                <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-search"></use>
+                </svg>
+            </button>
             </div>
+            </form>
           </ul>
           
           <ul class="header-nav ms-3">
@@ -414,8 +419,8 @@
 
       
 
-      window.addEventListener('load', function() {
-            getNextPage()
+      window.addEventListener('load', async function() {
+            await getNextPage()
         })
     </script>
 
