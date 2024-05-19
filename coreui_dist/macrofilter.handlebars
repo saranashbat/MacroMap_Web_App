@@ -41,6 +41,9 @@
     <link href="css/examples.css" rel="stylesheet">
     <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
   </head>
   <body>
     <div class="sidebar sidebar-fixed" id="sidebar">
@@ -197,7 +200,7 @@
               <use xlink:href="assets/brand/coreui.svg#full"></use>
             </svg></a>
           <ul class="header-nav d-none d-md-flex">
-            <form id="search" action="/macrofilter/search">
+            <form id="search" action="/macrofilter">
             <div style="width: 700px" class="input-group mb-3 mt-3">
               <input id="searchQuery" class="form-control" type="text" name="search" placeholder="Search foods" aria-label="Search foods" aria-describedby="basic-addon2">
               <button class="input-group-text" id="basic-addon2" type="submit">
@@ -245,7 +248,7 @@
                   <div class="row" >
                     <div class="col-sm-4">
                       <div class="sub-div text-center">
-                        <a style="color: #b1b7c1;" class="link" href="/macrofilter"><svg class="icon icon-lg">
+                        <a class="link" href="/macrofilter"><svg class="icon icon-lg">
                           <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-notes"></use>
                         </svg> List All</a>
 
@@ -324,30 +327,34 @@
     <script src="js/main.js"></script>
     <script>
       //REMOVE REDUNDANCY
-      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/list'
+      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/search'
       let apiKey = 'cEFm4RldmnkWBRMronecwmIF1fUVRAr0Vvu4bdD6'
       let currentPageNumber = 1      
       let prevPageNumber
 
       let pageSize = 10
       let dataTypes = ["Branded", "Foundation", "Survey (FNDDS)", "SR Legacy"].join(',')
-
-
+      
+      var searchQuery
+      document.getElementById('search').addEventListener('submit', function(event) {
+        event.preventDefault()
+        searchQuery = document.getElementById('searchQuery').value;
+        currentPageNumber = 1
+        getNextPage()
+    })
       
       async function getNextPage(){
 
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
+            query: searchQuery,
             pageSize: pageSize,
             pageNumber: currentPageNumber,
             dataType: dataTypes
           }
         })
 
-        if(response.data.length < pageSize){
-          return
-        }
 
         displayContents(response.data)
         
@@ -375,6 +382,7 @@
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
+            query: searchQuery, 
             pageSize: pageSize,
             pageNumber: prevPageNumber,
             dataType: dataTypes
@@ -391,19 +399,155 @@
         let body = document.getElementById("list-body")
         let listItems = ``
 
-        for (let item of data){
+        for (let item of data.foods){
+          let calories = ''
+          let brandOwner = ''
+          let fat = ''
+          let carbs = ''
+          let protein = ''
+
+          if(item.brandOwner){
+            brandOwner = item.brandOwner
+          }
+
+          for (let nutrient of item.foodNutrients){
+            if (nutrient.nutrientId == '2048' || nutrient.nutrientId == '1008'){
+              calories = nutrient.value + ' ' + nutrient.unitName.toLowerCase()
+            }
+            if(nutrient.nutrientId == '1004'){
+              fat = nutrient.value + ' ' + nutrient.unitName.toLowerCase()
+            }
+            if(nutrient.nutrientId == '1005'){
+              carbs = nutrient.value + ' ' + nutrient.unitName.toLowerCase()
+            }
+            if(nutrient.nutrientId == '1003'){
+              protein = nutrient.value + ' ' + nutrient.unitName.toLowerCase()
+            }
+          }
+
           let block = 
-          ` <div class="card mb-4 m-4">
-              <div class="card-header"><strong>${item.description}</strong></div>
-              <div id="list-body" class="card-body">
+          `<div class="card mb-4 m-4" style="color: rgba(0,0,0); border: none;">
+            <div class="card-header" style="background-color: #F4EBE4; border: none;">
+              <strong>${item.description}</strong><span class="small ms-1"> ${brandOwner}</span>
+            </div>
+            <div class="card-body" style="background-color: #FFF8EF; ">
+              <div class="row">
+                <div class="col m-4">
+                  <div>
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bolt"></use>
+                    </svg>
+                    Calories: ${calories}
+                  </div>
+                  <br>
+                  <div>
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pizza"></use>
+                    </svg>
+                    Total Fat: ${fat}
+                  </div>
+                  <br>
+                  <div>
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-apple"></use>
+                    </svg>
+                    Total Carbohydrates: ${carbs}
+                  </div>
+                  <br>
+                  <div>
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-burger"></use>
+                    </svg>
+                    Protein: ${protein}
+                  </div>
+                </div>
+                <div class="col m-4">
+                  <canvas style="width: 300px; height: 300px;" id="${item.fdcId}"></canvas>
+                </div>
               </div>
-            </div>          
-          
-          `
+              <div class="container m-4">
+                <!-- Toggle button -->
+                <button class="btn btn-light-brown" type="button" data-coreui-toggle="collapse" data-coreui-target="#toggleDiv" aria-expanded="false" aria-controls="toggleDiv">
+                    View Full Nutrition Facts
+                </button>
+
+                <!-- Collapsible div -->
+                <div class="collapse mt-3" id="toggleDiv">
+                    <div class="card card-body" style="width: 50%;">
+                        This is the content inside the toggled div.
+                    </div>
+                </div>
+            </div>
+            </div>
+          </div>`
+
+
           listItems += block
         }
 
         body.innerHTML = listItems
+
+        renderCharts(data)
+
+      }
+
+      function renderCharts(data){
+        for (let item of data.foods){
+          let calories = ''
+          let fat = ''
+          let carbs = ''
+          let protein = ''
+
+          for (let nutrient of item.foodNutrients){
+            if (nutrient.nutrientId == 2048 || nutrient.nutrientId == '1008'){
+              calories = nutrient.value 
+            }
+            if(nutrient.nutrientId == 1004){
+              fat = nutrient.value 
+            }
+            if(nutrient.nutrientId == 1005){
+              carbs = nutrient.value 
+            }
+            if(nutrient.nutrientId == 1003){
+              protein = nutrient.value 
+            }
+          }
+
+          let calculatedCals = fat*9 + carbs*4 + protein*4
+          
+          let ajdFactor = calories/calculatedCals
+
+          let carbPortion = ((carbs * 4 * ajdFactor * 100)/calories).toFixed(2)
+          let fatPortion = ((fat * 9 * ajdFactor * 100)/calories).toFixed(2)
+          let proteinPortion = ((protein * 4 * ajdFactor * 100)/calories).toFixed(2)
+
+          const pieChart = new Chart(document.getElementById(item.fdcId), {
+            type: 'pie',
+            data: {
+              labels: [`Fat`, `Carbs`, `Protein`],
+              datasets: [{
+                data: [fatPortion, carbPortion, proteinPortion],
+                backgroundColor: ['#FFFD97', '#D9B99B', '#E7B7B8'],
+                hoverBackgroundColor: ['#FFFD97', '#D9B99B', '#E7B7B8']
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Macro Breakdown (Percentage %)',
+                  font: {
+                      size: 16 
+                  }
+                }
+              },
+              maintainAspectRatio: false
+
+            }
+          })
+        }
+        
 
       }
 
@@ -417,11 +561,12 @@
         }
       }
 
-      
-
       window.addEventListener('load', async function() {
             await getNextPage()
         })
+      
+
+      
     </script>
 
   </body>

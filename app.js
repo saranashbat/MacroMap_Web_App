@@ -62,17 +62,7 @@ app.get('/macrofilter', async (req, res) => {
 
 })
 
-app.use('/macrofilter', express.static(path.join(__dirname, 'coreui_dist')))
 
-app.get('/macrofilter/search', async (req, res) => {
-    
-    let userData = ''
-    if (req.oidc.isAuthenticated()){
-        userData = req.oidc.user
-    }
-    res.render('search', {layout: false, userData: userData})
-
-})
 
 
 

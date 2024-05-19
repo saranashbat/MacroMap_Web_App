@@ -245,7 +245,7 @@
                   <div class="row" >
                     <div class="col-sm-4">
                       <div class="sub-div text-center">
-                        <a class="link" href="/macrofilter"><svg class="icon icon-lg">
+                        <a style="color: #b1b7c1;" class="link" href="/macrofilter"><svg class="icon icon-lg">
                           <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-notes"></use>
                         </svg> List All</a>
 
@@ -324,34 +324,30 @@
     <script src="js/main.js"></script>
     <script>
       //REMOVE REDUNDANCY
-      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/search'
+      let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/list'
       let apiKey = 'cEFm4RldmnkWBRMronecwmIF1fUVRAr0Vvu4bdD6'
       let currentPageNumber = 1      
       let prevPageNumber
 
       let pageSize = 10
       let dataTypes = ["Branded", "Foundation", "Survey (FNDDS)", "SR Legacy"].join(',')
-      
-      var searchQuery
-      document.getElementById('search').addEventListener('submit', function(event) {
-        event.preventDefault()
-        searchQuery = document.getElementById('searchQuery').value;
-        currentPageNumber = 1
-        getNextPage()
-    })
+
+
       
       async function getNextPage(){
 
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
-            query: searchQuery,
             pageSize: pageSize,
             pageNumber: currentPageNumber,
             dataType: dataTypes
           }
         })
 
+        if(response.data.length < pageSize){
+          return
+        }
 
         displayContents(response.data)
         
@@ -379,7 +375,6 @@
         const response = await axios.get(baseURL, {
           params: {
             api_key: apiKey,
-            query: searchQuery, 
             pageSize: pageSize,
             pageNumber: prevPageNumber,
             dataType: dataTypes
@@ -396,7 +391,7 @@
         let body = document.getElementById("list-body")
         let listItems = ``
 
-        for (let item of data.foods){
+        for (let item of data){
           let block = 
           ` <div class="card mb-4 m-4">
               <div class="card-header"><strong>${item.description}</strong></div>
@@ -422,12 +417,11 @@
         }
       }
 
+      
+
       window.addEventListener('load', async function() {
             await getNextPage()
         })
-      
-
-      
     </script>
 
   </body>
