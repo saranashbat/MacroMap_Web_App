@@ -295,7 +295,7 @@
                     <button id="prev-button" class="btn btn-light m-3" type="button" onclick="getPrevPage()" >Previous</button>
                   </div>
                   <div class="col-auto">
-                    <button class="btn btn-light m-3" type="button" onclick="getNextPage()">Next</button>
+                    <button id="next-button" class="btn btn-light m-3" type="button" onclick="getNextPage()">Next</button>
                   </div>
                 </div>
             </div>
@@ -326,7 +326,6 @@
     <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
     <script src="js/main.js"></script>
     <script>
-      //REMOVE REDUNDANCY
       let baseURL = 'https://api.nal.usda.gov/fdc/v1/foods/search'
       let apiKey = 'cEFm4RldmnkWBRMronecwmIF1fUVRAr0Vvu4bdD6'
       let currentPageNumber = 1      
@@ -355,7 +354,7 @@
           }
         })
 
-
+        let totalPages = response.data.totalPages
         displayContents(response.data)
         
         currentPageNumber += 1
@@ -363,7 +362,8 @@
         prevPageNumber = currentPageNumber - 2
 
 
-        updateButtonVisibility()
+        updateButtonVisibility(totalPages)
+        
 
       }
 
@@ -389,9 +389,12 @@
           }
         })
 
+        let totalPages = response.data.totalPages
+
         displayContents(response.data)
 
-        updateButtonVisibility()
+        updateButtonVisibility(totalPages)
+        
 
       }
 
@@ -551,14 +554,24 @@
 
       }
 
-      function updateButtonVisibility() {
+      function updateButtonVisibility(totalPages) {
         let prevButton = document.getElementById('prev-button')
+        let nextButton = document.getElementById('next-button')
+
 
         if (currentPageNumber === 2) {
             prevButton.style.display = 'none'
         } else {
             prevButton.style.display = 'block'
         }
+
+        if (currentPageNumber > totalPages) {
+            nextButton.style.display = 'none'
+        } else {
+            nextButton.style.display = 'block'
+        }
+
+        
       }
 
       window.addEventListener('load', async function() {
